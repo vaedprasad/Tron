@@ -3,7 +3,5 @@ comment0.params=args
 comment0.target=void\ main(java.lang.String[])
 comment1.params=gameMap\ move
 comment1.target=boolean\ isGoodMove(java.util.ArrayList,\ Tron.Direction)
-comment2.params=gameMap
-comment2.target=void\ findPos(java.util.ArrayList)
-comment2.text=\ \n\ Get\ an\ integer\ map\ of\ the\ field.\ Each\ int\n\ can\ either\ be\ Tron.Tile.EMPTY,\ Tron.Tile.ME,\ \n\ Tron.Tile.OPPONENT,\ Tron.Tile.TAKEN_BY_ME,\ or\n\ Tron.Tile.TAKEN_BY_OPPONENT.\n\ \n
-numComments=3
+comment1.text=public\ static\ boolean\ isGreatMove(ArrayList<ArrayList<Tron.Tile>>\ gameMap,\ Tron.Direction\ move)\ {\n\ \ \ \ int[]\ position\ \=\ null;\n\ \ \ \ for(int\ y\ \=\ 0;\ y\ <\ gameMap.size();\ y++)\ {\n\ \ \ \ for(int\ x\ \=\ 0;\ x\ <\ gameMap.size();\ x++)\ {\n\ \ \ \ if(gameMap.get(y).get(x)\ \=\=\ Tron.Tile.ME){\n\ \ \ \ position\ \=\ new\ int[]\ {x,y};\n\ \ \ \ Tron.logln(position[0]+"\ ,\ "+position[1]);\n\ \ \ \ }\n\ \ \ \ }\n\ \ \ \ }\ \ \n\n\ \ \ \ int[]\ newPosition\ \=\ position;\n\ \ \ \ if(move\=\=\ Tron.Direction.NORTH)\ \n\ \ \ \ newPosition[1]\ +\=\ 1;\n\ \ \ \ if(move\=\=\ Tron.Direction.SOUTH)\ \n\ \ \ \ newPosition[1]\ -\=\ 1;\n\ \ \ \ if(move\=\=\ Tron.Direction.WEST)\ \n\ \ \ \ newPosition[0]\ -\=\ 1;\n\ \ \ \ if(move\=\=\ Tron.Direction.EAST)\ \n\ \ \ \ newPosition[0]\ +\=\ 1;\n\n\ \ \ \ return\ newPosition[0]\ >\=\ 0\ &&\ newPosition[0]\ <\ 16\ &&\ newPosition[1]\ >\=\ 0\ &&\ newPosition[1]\ <\ 16\ &&\ gameMap.get(newPosition[1]).get(newPosition[0])\ \=\=\ Tron.Tile.EMPTY;\n\n}
+numComments=2

@@ -12,10 +12,7 @@ import java.io.*;
  */
 
 public class TronBot {
-    private static int[] pos = new int [2];
-    private static int[] posOpponent = new int [2];
-    private static int x = 0;
-    private static int y = 1;
+    private static boolean isGreatMove = false;
 
     public static void main(String[] args) {
         Tron.init();        // Call this to initialize networking and the debug file
@@ -27,14 +24,39 @@ public class TronBot {
 
             if(isGoodMove(gameMap, Tron.Direction.NORTH))
                 Tron.sendMove(Tron.Direction.NORTH);
-            if(isGoodMove(gameMap, Tron.Direction.SOUTH))
+            else if(isGoodMove(gameMap, Tron.Direction.SOUTH))
                 Tron.sendMove(Tron.Direction.SOUTH);
-            if(isGoodMove(gameMap, Tron.Direction.EAST))
+            else if(isGoodMove(gameMap, Tron.Direction.EAST))
                 Tron.sendMove(Tron.Direction.EAST);
             else
                 Tron.sendMove(Tron.Direction.WEST);
         }
     }
+
+    /**public static boolean isGreatMove(ArrayList<ArrayList<Tron.Tile>> gameMap, Tron.Direction move) {
+    int[] position = null;
+    for(int y = 0; y < gameMap.size(); y++) {
+    for(int x = 0; x < gameMap.size(); x++) {
+    if(gameMap.get(y).get(x) == Tron.Tile.ME){
+    position = new int[] {x,y};
+    Tron.logln(position[0]+" , "+position[1]);
+    }
+    }
+    }  
+
+    int[] newPosition = position;
+    if(move== Tron.Direction.NORTH) 
+    newPosition[1] += 1;
+    if(move== Tron.Direction.SOUTH) 
+    newPosition[1] -= 1;
+    if(move== Tron.Direction.WEST) 
+    newPosition[0] -= 1;
+    if(move== Tron.Direction.EAST) 
+    newPosition[0] += 1;
+
+    return newPosition[0] >= 0 && newPosition[0] < 16 && newPosition[1] >= 0 && newPosition[1] < 16 && gameMap.get(newPosition[1]).get(newPosition[0]) == Tron.Tile.EMPTY;
+
+    }*/
 
     public static boolean isGoodMove(ArrayList<ArrayList<Tron.Tile>> gameMap, Tron.Direction move) {
         int[] position = null;
@@ -48,7 +70,7 @@ public class TronBot {
         }  
 
         int[] newPosition = position;
-        if(move== Tron.Direction.NORTH) 
+        if(move== Tron.Direction.NORTH)
             newPosition[1] += 1;
         if(move== Tron.Direction.SOUTH) 
             newPosition[1] -= 1;
@@ -57,8 +79,12 @@ public class TronBot {
         if(move== Tron.Direction.EAST) 
             newPosition[0] += 1;
 
+        boolean above = newPosition[0] >= 0 && newPosition[0] < 16 && newPosition[1]-1 >= 0 && newPosition[1]-1 < 16 && gameMap.get(newPosition[1]-1).get(newPosition[0]) == Tron.Tile.EMPTY;
+        boolean below = newPosition[0] >= 0 && newPosition[0] < 16 && newPosition[1]+1 >= 0 && newPosition[1]+1 < 16 && gameMap.get(newPosition[1]+1).get(newPosition[0]) == Tron.Tile.EMPTY;
+        boolean right = newPosition[0]+1 >= 0 && newPosition[0]+1 < 16 && newPosition[1] >= 0 && newPosition[1] < 16 && gameMap.get(newPosition[1]).get(newPosition[0]+1) == Tron.Tile.EMPTY;
+        boolean left = newPosition[0]-1 >= 0 && newPosition[0]-1 < 16 && newPosition[1] >= 0 && newPosition[1] < 16 && gameMap.get(newPosition[1]).get(newPosition[0]-1) == Tron.Tile.EMPTY;    
+        isGreatMove = above||below||right||left;
         return newPosition[0] >= 0 && newPosition[0] < 16 && newPosition[1] >= 0 && newPosition[1] < 16 && gameMap.get(newPosition[1]).get(newPosition[0]) == Tron.Tile.EMPTY;
-
     }
 
     /** 
@@ -67,24 +93,24 @@ public class TronBot {
      * Tron.Tile.OPPONENT, Tron.Tile.TAKEN_BY_ME, or
      * Tron.Tile.TAKEN_BY_OPPONENT.
      * 
-     */
+     *
     public static void findPos(ArrayList<ArrayList<Tron.Tile>> gameMap) {
-        for(int y = 0; y < gameMap.size(); y++) {
-            for(int x = 0; x < gameMap.size(); x++) {
-                if(gameMap.get(y).get(x) == Tron.Tile.ME) {     
-                    Tron.log("position: " + x + ", " + y);
-                    pos[0] = x;
-                    pos[1] = y;
-                }
-                else if(gameMap.get(y).get(x) == Tron.Tile.OPPONENT) {     
-                    //Tron.log("position: " + x + ", " + y);
-                    posOpponent[0] = x;
-                    posOpponent[1] = y;
-                }
-            }
-        }
+    for(int y = 0; y < gameMap.size(); y++) {
+    for(int x = 0; x < gameMap.size(); x++) {
+    if(gameMap.get(y).get(x) == Tron.Tile.ME) {     
+    Tron.log("position: " + x + ", " + y);
+    pos[0] = x;
+    pos[1] = y;
     }
-
+    else if(gameMap.get(y).get(x) == Tron.Tile.OPPONENT) {     
+    //Tron.log("position: " + x + ", " + y);
+    posOpponent[0] = x;
+    posOpponent[1] = y;
+    }
+    }
+    }
+    }
+     */
     /**
      *  Send your move.  
      *  This can be Tron.Direction.NORTH,
