@@ -12,7 +12,6 @@ import java.io.*;
  */
 
 public class TronBot {
-    private static boolean isGreatMove = false;
     private static int[] myPos = new int[2];
     private static ArrayList<ArrayList<Tron.Tile>> map;
 
@@ -38,37 +37,45 @@ public class TronBot {
                 break;
             }
         }
-        if (!moveFound) move(0);
+        if (!moveFound){
+            for (int i = 1; i <= 4; i++) {
+                if (isFineMove(i)) {
+                    moveFound = true;
+                    move(i);
+                    break;
+                }
+            } 
+        }
+        if (!moveFound)move(0);
     }
 
     public static boolean isGoodMove(int dir) {
         return TronUtils.isFree(map, TronUtils.movedPos(myPos,dir)) && !moveWillTrap(dir);
     }
-    
+
+    public static boolean isFineMove(int dir) {
+        return TronUtils.isFree(map, TronUtils.movedPos(myPos,dir));
+    }
+
     public static boolean moveWillTrap(int dir) {
         int[] nextPos = TronUtils.movedPos(myPos, dir);
         return TronUtils.adjacentFree(map, nextPos).isEmpty();
     }
 
-    
     public static void move(int dir) {
         switch(dir) {
-            case 1: 
-                up();
-                break;
-            case 2:
-                down();
-                break;
-            case 3:
-                left();
-                break;
-            case 4:
-                right();
-                break;
-            default:
-                move((int)(Math.random() * 4) + 1);
+            case 1: up();
+            break;
+            case 2:down();            
+            break;
+            case 3:left();           
+            break;
+            case 4:right();            
+            break;
+            default:move((int)(Math.random() * 4) + 1);        
         }
     }
+
     public static void up() {
         Tron.sendMove(Tron.Direction.SOUTH);
     }
@@ -84,7 +91,4 @@ public class TronBot {
     public static void right() {
         Tron.sendMove(Tron.Direction.EAST);
     }
-    
-    
-
 }
